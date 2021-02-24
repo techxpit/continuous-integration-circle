@@ -1,10 +1,15 @@
 version: 2.1
-executors:
-  ci-executor:
-    docker:
-      - image: githubtraining/ci-custom:latest
+orbs:
+  ruby: circleci/ruby@0.1.2 
+
 jobs:
   build:
-    executor: ci-executor
+    docker:
+      - image: circleci/ruby:2.6.3-stretch-node
+    executor: ruby/default
     steps:
       - checkout
+      - run:
+          name: Which bundler?
+          command: bundle -v
+      - ruby/bundle-install
